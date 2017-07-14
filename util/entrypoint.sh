@@ -13,11 +13,10 @@ _dnsmasq_resolv_conf="/etc/resolv.dnsmasq"
 _resolv_conf="/etc/resolv.conf"
 _default_conf="$_dnsmasq_conf_d/0_default.conf"
 
-setup_defaults() {
-	# for var in ${!DEFAULTS[@]}; do
-		# export "$var=${DEFAULTS[$var]}"
-	# done
-	echo "resolv-file=/$_dnsmasq_resolv_conf" > $_default_conf
+setup_export_defaults() {
+	for var in ${!DEFAULTS[@]}; do
+		export "$var=${DEFAULTS[$var]}"
+	done
 }
 
 setup_resolv_conf() {
@@ -31,13 +30,18 @@ setup_resolv_conf() {
 }
 
 setup_configs() {
-  configomat.sh "DNSMASQ_" $_dnsmasq_conf
+	echo "resolv-file=/$_dnsmasq_resolv_conf" > $_default_conf
+  # configomat.sh "DNSMASQ_" $_dnsmasq_conf
 }
 
 # copy custom config
-[[ $(ls "$_conf_new_folder/" | grep "*.conf" | wc -l) > 0 ]] && cp "$_conf_new_folder/*.conf" $_dnsmasq_conf_d
+if [ -d $_conf_new_folder ]
+then
+	[[ $(ls "$_conf_new_folder/" | grep ".*.conf" | wc -l) > 0 ]] && cp $_conf_new_folder/*.conf $_dnsmasq_conf_d
+fi
 
-setup_defaults
+setup_export_defaults
+setup_configs
 setup_resolv_conf
 
 # start supervisord
