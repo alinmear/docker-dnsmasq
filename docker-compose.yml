@@ -1,0 +1,6 @@
+version: '3'
+services:
+  dnsmasq:
+    build: alinmear/docker-dnsmasq:latest
+    volumes:
+    - ./config:/tmp/docker-dnsmasq

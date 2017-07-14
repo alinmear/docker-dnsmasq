@@ -21,11 +21,7 @@ run:
 	-v "`pwd`/test/config":/tmp/docker-dnsmasq \
 	--net=dnsmasq \
 	--ip=191.168.3.254 \
-	-h dnsmasq.mydomain.loc -t $(NAME)
-
-	sleep 15
-
-	docker run -d --name dnsmasq-without-config \
+	--cap-add NET_ADMIN \
 	-h dnsmasq.mydomain.loc -t $(NAME)
 
 	sleep 15
@@ -36,6 +32,5 @@ tests:
 clean:
 	-docker rm -f \
 	dnsmasq \
-	dnsmasq-without-config
 
 	-docker network remove dnsmasq
