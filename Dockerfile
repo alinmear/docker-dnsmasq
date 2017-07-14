@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get -y dist-upgrade && \
     apt-get -y install dnsmasq supervisor && \
     apt-get -y autoremove && \
-    apt-get -y clean && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add files
