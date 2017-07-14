@@ -1,9 +1,14 @@
-FROM       alpine:latest
+FROM       resin/rpi-raspbian
 MAINTAINER Paul Steinlechner <paul.steinlechner@pylonlabs.at>
 
-RUN set -xe \
-&& apk add --update --no-progress dnsmasq supervisor bash \
-&& rm -rf /var/cache/apk/*
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get install -q -y -o "DPkg::Options::=--force-confold" apt-utils && \
+    apt-get -q -y -o "DPkg::Options::=--force-confold" -o "DPkg::Options::=--force-confdef" dist-upgrade && \
+    apt-get -q -y -o "DPkg::Options::=--force-confold" -o "DPkg::Options::=--force-confdef" install dnsmasq man supervisor && \
+    apt-get -q -y autoremove && \
+    apt-get -q -y clean && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add files
 ADD util/entrypoint.sh /entrypoint.sh
