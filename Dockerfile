@@ -3,11 +3,10 @@ MAINTAINER Paul Steinlechner <paul.steinlechner@pylonlabs.at>
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
-    apt-get install -q -y -o "DPkg::Options::=--force-confold" apt-utils && \
-    apt-get -q -y -o "DPkg::Options::=--force-confold" -o "DPkg::Options::=--force-confdef" dist-upgrade && \
-    apt-get -q -y -o "DPkg::Options::=--force-confold" -o "DPkg::Options::=--force-confdef" install dnsmasq man supervisor && \
-    apt-get -q -y autoremove && \
-    apt-get -q -y clean && \
+    apt-get -y dist-upgrade && \
+    apt-get -y install dnsmasq supervisor && \
+    apt-get -y autoremove && \
+    apt-get -y clean && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add files
