@@ -7,7 +7,7 @@ RUN apt-get update && \
     apt-get -y install dnsmasq supervisor && \
     apt-get -y autoremove && \
     apt-get -y clean && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add files
 ADD util/entrypoint.sh /entrypoint.sh
