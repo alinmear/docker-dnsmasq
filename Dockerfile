@@ -18,5 +18,8 @@ EXPOSE 67/udp 67/tcp 53/tcp 53/udp
 
 RUN chmod +x /entrypoint.sh
 
+COPY util/docker-configomat/configomat.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/*
+
 ENTRYPOINT ["/entrypoint.sh"]
 cmd ["/usr/bin/supervisord"]
