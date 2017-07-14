@@ -1,4 +1,4 @@
-NAME = alinmear/docker-dhcpd:testing
+NAME = alinmear/docker-dnsmasq:testing
 
 all: build-no-cache run tests clean
 all-fast: build run tests clean
@@ -13,20 +13,20 @@ build:
 run:
 	docker network create \
 	--subnet=191.168.3.0/24 \
-	dhcpd
+	dnsmasq
 
 	sleep 5
 
-	docker run -d --name dhcpd \
-	-v "`pwd`/test/config":/tmp/docker-dhcpd \
-	--net=dhcpd \
+	docker run -d --name dnsmasq \
+	-v "`pwd`/test/config":/tmp/docker-dnsmasq \
+	--net=dnsmasq \
 	--ip=191.168.3.254 \
-	-h dhcpd.mydomain.loc -t $(NAME)
+	-h dnsmasq.mydomain.loc -t $(NAME)
 
 	sleep 15
 
-	docker run -d --name dhcpd-without-config \
-	-h dhcpd.mydomain.loc -t $(NAME)
+	docker run -d --name dnsmasq-without-config \
+	-h dnsmasq.mydomain.loc -t $(NAME)
 
 	sleep 15
 
@@ -35,7 +35,7 @@ tests:
 
 clean:
 	-docker rm -f \
-	dhcpd \
-	dhcpd-without-config
+	dnsmasq \
+	dnsmasq-without-config
 
-	-docker network remove dhcpd
+	-docker network remove dnsmasq
