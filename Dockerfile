@@ -1,13 +1,9 @@
-FROM       resin/rpi-raspbian:latest
+FROM       arm32v6:alpine:3.6
 MAINTAINER Paul Steinlechner <paul.steinlechner@pylonlabs.at>
 
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
-    apt-get -y dist-upgrade && \
-    apt-get -y install dnsmasq supervisor && \
-    apt-get -y autoremove && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN set -xe \
+&& apk add --update --no-progress dnsmasq supervisor bash \
+&& rm -rf /var/cache/apk/*
 
 # Add files
 ADD util/entrypoint.sh /entrypoint.sh
