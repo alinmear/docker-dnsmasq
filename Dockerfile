@@ -1,4 +1,4 @@
-FROM       resin/rpi-raspbian
+FROM       resin/rpi-raspbian:latest
 MAINTAINER Paul Steinlechner <paul.steinlechner@pylonlabs.at>
 
 ENV DEBIAN_FRONTEND=noninteractive
