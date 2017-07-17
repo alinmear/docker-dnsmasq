@@ -1,4 +1,4 @@
-FROM       arm32v6:alpine:3.6
+FROM       arm32v6/alpine:3.6
 MAINTAINER Paul Steinlechner <paul.steinlechner@pylonlabs.at>
 
 RUN set -xe \
