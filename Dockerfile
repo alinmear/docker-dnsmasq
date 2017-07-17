@@ -1,9 +1,16 @@
-FROM       arm32v6/alpine:3.6
+FROM       resin/armv7hf-debian-qemu:latest
 MAINTAINER Paul Steinlechner <paul.steinlechner@pylonlabs.at>
 
-RUN set -xe \
-&& apk add --update --no-progress dnsmasq supervisor bash \
-&& rm -rf /var/cache/apk/*
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN [ "cross-build-start" ]
+
+RUN apt-get update && \
+    apt-get -y dist-upgrade && \
+    apt-get -y install dnsmasq supervisor && \
+    apt-get -y autoremove && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add files
 ADD util/entrypoint.sh /entrypoint.sh
@@ -17,6 +24,8 @@ RUN chmod +x /entrypoint.sh
 
 COPY util/docker-configomat/configomat.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/*
+
+RUN [ "cross-build-end" ]
 
 ENTRYPOINT ["/entrypoint.sh"]
 cmd ["/usr/bin/supervisord"]
